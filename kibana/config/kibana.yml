@@ -5,8 +5,9 @@
 server.name: kibana
 elasticsearch.url: http://elasticsearch:9200
 xpack.monitoring.ui.container.elasticsearch.enabled: false
-server.host: "localhost"
+# server.host: "localhost"
 # elasticsearch.hosts: [ http://elasticsearch:9200 ]
+server.host: "0"
 
 # The default application to load.
 kibana.defaultAppId: "dashboard/Aggregate-Reporting-of-HydroShare-Users"
