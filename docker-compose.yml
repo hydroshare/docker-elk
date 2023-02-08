@@ -39,6 +39,7 @@ services:
         source: ./logstash/pipeline
         target: /usr/share/logstash/pipeline
         read_only: true
+      - ./logstash/config/hs-template.json:/etc/logstash/hs-template.json:ro,Z
     ports:
       - "5044:5044"
       - "5000:5000/tcp"
