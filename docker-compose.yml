@@ -124,7 +124,7 @@ services:
       METRICS_HOSTNAME: usagemetrics.hydroshare.org
       CADDY_SUBDOMAIN: ${CADDY_SUBDOMAIN:-caddy}
       ES_SUBDOMAIN: ${ES_SUBDOMAIN:-es}
-      KIBANA__SUBDOMAIN: ${KIBANA_SUBDOMAIN:-kibana}
+      KIBANA_SUBDOMAIN: ${KIBANA_SUBDOMAIN:-kibana}
       LOGSTASH_SUBDOMAIN: ${LOGSTASH_SUBDOMAIN:-logstash}
   
   caddy:
