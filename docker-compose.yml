@@ -111,8 +111,10 @@ services:
       context: nginx/
     restart: unless-stopped
     volumes: 
-      - ./nginx/conf.d_templates:/etc/nginx/templates
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro,Z
+      - ./nginx/dev/conf.d_templates:/etc/nginx/templates
+      - ./nginx/dev/nginx.conf:/etc/nginx/nginx.conf:ro,Z
+    ports:
+      - "80:80"
     networks:
       - elk
       - caddy
