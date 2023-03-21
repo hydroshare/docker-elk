@@ -3,18 +3,27 @@ version: '3.7'
 services:
   nginx:
     volumes: 
-      - ./nginx/prod/conf.d_templates:/etc/nginx/templates
-      - ./nginx/prod/nginx.conf:/etc/nginx/nginx.conf:ro,Z
+      - ./nginx/prod_conf.d_templates:/etc/nginx/templates
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro,Z
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
     ports:
       - "443:443"
       - "80:80"
+    environment:
+      NGINX_ENVSUBST_TEMPLATE_DIR: /etc/nginx/templates
+      NGINX_ENVSUBST_TEMPLATE_SUFFIX: ".conf"
+      METRICS_HOSTNAME: usagemetrics.hydroshare.org
+      CADDY_SUBDOMAIN: ${CADDY_SUBDOMAIN:-caddy}
+      ES_SUBDOMAIN: ${ES_SUBDOMAIN:-es}
+      KIBANA_SUBDOMAIN: ${KIBANA_SUBDOMAIN:-kibana}
+      LOGSTASH_SUBDOMAIN: ${LOGSTASH_SUBDOMAIN:-logstash}
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   
   certbot:
     depends_on:
       - nginx
+    user: root
     image: certbot/certbot
     volumes:
       - ./certbot/conf:/etc/letsencrypt
