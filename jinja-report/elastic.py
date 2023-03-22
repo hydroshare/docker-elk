@@ -178,7 +178,9 @@ def get_es_data(host,
 
 
 if __name__ == "__main__":
-
+    # TODO: looks like this host and port are incorrect
+    # host='elasticsearch',
+    # port='9200'):
     u1 = "./elastic -n usagemetrics.hydroshare.org -p 8080 -i 'www-users-details-2017.01.06*' -f all_users.csv"
     parser = argparse.ArgumentParser(description="Query elasticsearch server.\n\nSample Usage\n%s" % (u1))
     parser.add_argument('-n', '--host', required=True, help='host address of the elasticsearch server')

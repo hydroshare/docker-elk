@@ -121,7 +121,7 @@ services:
     environment:
       NGINX_ENVSUBST_TEMPLATE_DIR: /etc/nginx/templates
       NGINX_ENVSUBST_TEMPLATE_SUFFIX: ".conf"
-      METRICS_HOSTNAME: usagemetrics.hydroshare.org
+      METRICS_HOSTNAME: ${METRICS_HOSTNAME}
       CADDY_SUBDOMAIN: ${CADDY_SUBDOMAIN:-caddy}
       ES_SUBDOMAIN: ${ES_SUBDOMAIN:-es}
       KIBANA_SUBDOMAIN: ${KIBANA_SUBDOMAIN:-kibana}

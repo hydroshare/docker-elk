@@ -13,7 +13,7 @@ services:
     environment:
       NGINX_ENVSUBST_TEMPLATE_DIR: /etc/nginx/templates
       NGINX_ENVSUBST_TEMPLATE_SUFFIX: ".conf"
-      METRICS_HOSTNAME: usagemetrics.hydroshare.org
+      METRICS_HOSTNAME: ${METRICS_HOSTNAME}
       CADDY_SUBDOMAIN: ${CADDY_SUBDOMAIN:-caddy}
       ES_SUBDOMAIN: ${ES_SUBDOMAIN:-es}
       KIBANA_SUBDOMAIN: ${KIBANA_SUBDOMAIN:-kibana}
@@ -25,7 +25,17 @@ services:
       - nginx
     user: root
     image: certbot/certbot
+    container_name: certbot
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    # TODO: we should use a certbot DNS plugin to configure wildcard cert if possible
+    command: >
+      certonly --webroot -w /var/www/certbot --force-renewal
+      --email ${CONTACT_EMAIL:-hello@me.com} --no-eff-email 
+      -d ${METRICS_HOSTNAME}
+      -d ${CADDY_SUBDOMAIN}.${METRICS_HOSTNAME}
+      -d ${ES_SUBDOMAIN}.${METRICS_HOSTNAME}
+      -d ${KIBANA_SUBDOMAIN}.${METRICS_HOSTNAME}
+      -d ${LOGSTASH_SUBDOMAIN}.${METRICS_HOSTNAME}
+      --agree-tos
