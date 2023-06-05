@@ -1,0 +1,224 @@
+# Figure styling
+# ------------------
+# colors: 'b': blue, 'g': green, 'r': red, 'c': cyan, 'm': magenta, 'y': yellow, 'k': black, 'w': white
+# linestyles: supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed', 'dashdot', 'dotted'
+# Additional configuration via rc_params: https://matplotlib.org/stable/tutorials/introductory/customizing.html
+# ------------------
+# User Figures
+# - types: active, total, new, returning
+# ------------------
+# Resource Figures
+# - types: total
+# ------------------
+# Organization Figures
+# - types: total, us_universities, international_universities, cuahsi_members
+# ------------------
+
+report:
+  collect_data: True
+  input_directory: 11.27.2022
+  output_directory: 11.27.2022/report
+  creator: Tony Castronova
+  date_created: 11/27/2022
+  title: HydroShare Usage Report
+  description: |
+    This document contains figures and statistics about HydroShare users, their activity, and their data. The figures contained in in this document are intended to be used to understand the general adoption and use of the HydroShare platform. All data used to generate these figures are available for download in the figure descriptions.
+  css: |
+    .preamble {
+      background-color: #d3d3d359;
+      padding: 1 50;
+    }
+    .caption {
+      font-size: 14pt;
+      padding: 0 50;
+    }
+    .title-block {
+      padding: 10 50;
+    }
+    .figure-title {
+      display: inline-block;
+    }
+    .figure-data {
+      display: inline-block;
+      padding: 0 50;
+      vertical-align: middle;
+    }
+    .dataframe {
+      border-collapse: collapse !important;
+      width: 100%;
+      margin: 10px;
+    }
+    .dataframe * {
+      max-width: 100%;
+      margin-bottom: 18px;
+      background-color: transparent;
+    }
+    .dataframe table {
+      border-spacing: 0;
+      border-top-width: 1px;
+      border-right-width: 1px;
+      border-bottom-width: 1px;
+      border-left-width: 1px;
+    }
+    .dataframe th {
+      background: #eee;
+      text-align: center;
+      padding: 5px;
+    }
+    .dataframe td {
+      vertical-align: middle;
+      text-align: center;
+      border-color: inherit;
+      padding: 5px;
+    }
+    .dataframe tr {
+      display: table-row;
+      vertical-align: inherit;
+      border-color: inherit;
+    }
+    .dataframe > tbody > tr:nth-of-type(odd) {
+      background-color: #f1eeee;
+    }
+
+
+metrics:
+
+  organizations-total-line:
+    metric_type: organization
+    start_time: 01-01-2015
+#    end_time: 11-01-2022
+    aggregation: 1D
+    save_data: True
+    series:
+      - type: total
+        label: All Organizations
+        color: k
+        linestyle: '-'
+    figure_configuration:
+      type: line
+      title: Cumulative Unique Organizations Registered in HydroShare
+      caption: |
+        Cumulative number of unique, user-specified, organizations represented in HydroShare. Values are plotted by the account creation date of the user account that defined the organization. In the event that an organization has been defined multiple times, it is associated with the first account that referenced it.
+      rcParams:
+        axes.titlesize: 24
+        axes.labelsize: 16
+        legend.fontsize: 12
+        figure.figsize: 12, 7
+      axis:
+        xlabel: Account Creation Date
+        ylabel: Number of Organizations
+        ylim: (0.0, None)
+      figure:
+        annotate_series: True
+        grid: True
+        legend: True
+  
+  organizations-us-int-cuahsi:
+    metric_type: organization
+    start_time: 01-01-2015
+#    end_time: 11-01-2022
+    aggregation: 1D
+    save_data: True
+    series:
+      - type: us_universities
+        label: US Universities
+        color: b
+        linestyle: '-'
+      - type: international_universities
+        label: International Universities
+        color: r
+        linestyle: '-'
+      - type: cuahsi_members
+        label: CUAHSI Member Institutions
+        color: g
+        linestyle: '-'
+    figure_configuration:
+      type: line
+      title: Cumulative Unique Organizations that are Universities and CUAHSI Member Institutions
+      caption: |
+        Cumulative total of unique, user-specified, organizations divided into (1) US universities, (2) CUAHSI member institutions, and (3) international universities. Values are plotted by the account creation date of the user account that defined the organization. In the event that an organization has been defined multiple times, it is associated with the first account that referenced it.
+      rcParams:
+        axes.titlesize: 24
+        axes.labelsize: 16
+        legend.fontsize: 12
+        figure.figsize: 12, 7
+      axis:
+        xlabel: Account Creation Date
+        ylabel: Number of Organizations
+        ylim: (0.0, 450)
+      figure:
+        annotate_series: True
+        grid: True
+        legend: True
+
+  organizations-line:
+    metric_type: organization
+    start_time: 01-01-2015
+#    end_time: 11-01-2022
+    aggregation: 1D
+    save_data: True
+    series:
+      - type: org_type
+        label: Organizations
+        linestyle: '-'
+    figure_configuration:
+      type: line
+      title: Orgs over time
+      caption: Orgs
+      rcParams:
+        axes.titlesize: 24
+        axes.labelsize: 16
+        legend.fontsize: 12
+        figure.figsize: 12, 7
+      axis:
+        xlabel: Account Creation Date
+        ylabel: Number of Organizations
+        ylim: (0.0, None)
+      figure:
+        annotate_series: True
+        grid: True
+        legend: True
+
+#   organizations-table:
+#     metric_type: organization
+#     start_time: 01-01-2015
+# #    end_time: 11-01-2022
+#     aggregation: M
+#     save_data: True
+#     return_type: html # can be html or img
+#     filename: organizations-table.html
+#     series:
+#       - type: total_table
+#         label: Organizations
+#     figure_configuration:
+#       type: table_html
+#       title: Organizations
+#       caption: |
+#         This table is orgs
+#       rcParams:
+#         figure.figsize: 10, 20
+
+  doi-citation-count:
+    metric_type: doi
+    start_time: 01-01-2015
+#    end_time: 11-01-2022
+    aggregation: 1M
+    save_data: True
+    series:
+      - type: citations
+    figure_configuration:
+      type: bar
+      title: Number Citations for Published HydroShare Resources
+      caption: |
+        The total number citations of published HydroShare resources. The accompanying dataset also contains the dois for publications that cites each of these HydroShare resources.
+      rcParams:
+        axes.titlesize: 24
+        axes.labelsize: 16
+        figure.figsize: 12, 7
+      axis:
+        xlabel: Date
+        ylabel: Number of Citations
+        ylim: (0.0, None)
+      figure:
+        annotate_series: False
+        grid: True

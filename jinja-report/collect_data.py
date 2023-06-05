@@ -294,10 +294,10 @@ if __name__ == '__main__':
     # create a directory for these data
     datadir = args.d
 
-#    if args.s:
-#        if os.path.exists(datadir):
-#            print('Directory already exists, skipping')
-#            sys.exit(0)
+    if args.s:
+       if os.path.exists(datadir):
+           print('Directory already exists, skipping')
+           sys.exit(0)
 
     if not os.path.exists(datadir):
         os.makedirs(datadir)

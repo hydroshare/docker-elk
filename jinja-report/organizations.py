@@ -4,6 +4,8 @@ import os
 import pandas
 from datetime import datetime
 from pandas.plotting import register_matplotlib_converters
+from matplotlib.pyplot import cm
+import numpy
 
 import plot
 
@@ -49,30 +51,30 @@ def subset_by_date(dat, st, et):
         return dat.loc[mask]
 
 
-#def total_table(input_directory='.',
-#                start_time=datetime(2000, 1, 1),
-#                end_time=datetime(2030, 1, 1),
-#                num_records=50)
-#    
-#    print('--> calculating total distinct organizations - table')
-#
-#    # load the data based on working directory and subset it if necessary
-#    df = load_data(input_directory)
-#    df = subset_by_date(df, start_time, end_time)
-#
-#    # drop duplicates (except the first occurrence)
-#    df = df.drop_duplicates(subset='usr_organization', keep='first')
-#
-#    # group and cumsum
-#    df = df.sort_index()
-#    ds = df.groupby(pandas.Grouper(freq=aggregation)) \
-#           .usr_organization.nunique().cumsum()
-#    
-#    import pdb; pdb.set_trace()
-#
-#    # create plot object
-#    x = ds.index
-#    y = ds.values.tolist()
+def total_table(input_directory='.',
+               start_time=datetime(2000, 1, 1),
+               end_time=datetime(2030, 1, 1),
+               num_records=50):
+   
+   print('--> calculating total distinct organizations - table')
+
+   # load the data based on working directory and subset it if necessary
+   df = load_data(input_directory)
+   df = subset_by_date(df, start_time, end_time)
+
+   # drop duplicates (except the first occurrence)
+   df = df.drop_duplicates(subset='usr_organization', keep='first')
+
+   # group and cumsum
+   df = df.sort_index()
+   ds = df.groupby(pandas.Grouper(freq=aggregation)) \
+          .usr_organization.nunique().cumsum()
+   
+   import pdb; pdb.set_trace()
+
+   # create plot object
+   x = ds.index
+   y = ds.values.tolist()
 
 
 def total(input_directory='.',
@@ -225,3 +227,61 @@ def cuahsi_members(input_directory='.',
                            label=label,
                            linestyle=linestyle,
                            color=color)
+
+def org_type(input_directory='.',
+             start_time=datetime(2000, 1, 1),
+             end_time=datetime(2030, 1, 1),
+             aggregation='1D',
+             linestyle='-',
+             orgtypes=[],
+             **kwargs):
+
+    # load the data based on working directory
+    df = load_data(input_directory)
+    df = subset_by_date(df, start_time, end_time)
+
+    # define Org types
+    # org_vocab = ['Unspecified',
+    #             'Post-Doctoral Fellow',
+    #             'Commercial/Professional',
+    #             'University Faculty',
+    #             'Government Official',
+    #             'University Graduate Student',
+    #             'Professional',
+    #             'University Professional or Research Staff',
+    #             'Local Government',
+    #             'University Undergraduate Student',
+    #             'School Student Kindergarten to 12th Grade',
+    #             'School Teacher Kindergarten to 12th Grade',
+    #             'Other']
+
+    # # clean the data
+    # df.loc[~df.usr_organization.isin(org_vocab), 'usr_organization'] = 'Other'
+
+    # loop through each of the user types
+    plots = []
+
+    # plot only the provided user types
+    if len(orgtypes) == 0:
+        # select all unique user types
+        orgtypes = df.usr_organization.unique()
+
+    colors = iter(cm.jet(numpy.linspace(0, 1, len(orgtypes))))
+    for otype in orgtypes:
+
+        # group by org type
+        du = df.loc[df.usr_organization == otype]
+
+        # remove null values
+        # du = du.dropna()
+
+        # group by date frequency
+        ds = du.groupby(pandas.Grouper(freq=aggregation)).count().usr_organization.cumsum()
+        x = ds.index
+        y = ds.values
+        c = next(colors)
+
+        # create plot object
+        plots.append(plot.PlotObject(x, y, label=otype, color=c, linestyle='-'))
+
+    return plots
