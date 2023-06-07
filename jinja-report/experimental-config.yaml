@@ -18,11 +18,11 @@ report:
   collect_data: True
   input_directory: 11.27.2022
   output_directory: 11.27.2022/report
-  creator: Tony Castronova
+  creator: Devin Cowan
   date_created: 11/27/2022
-  title: HydroShare Usage Report
+  title: Experimental HS Usage Report
   description: |
-    This document contains figures and statistics about HydroShare users, their activity, and their data. The figures contained in in this document are intended to be used to understand the general adoption and use of the HydroShare platform. All data used to generate these figures are available for download in the figure descriptions.
+    Exploratory figures and statistics about HydroShare users, their activity, and their data.
   css: |
     .preamble {
       background-color: #d3d3d359;
@@ -82,102 +82,138 @@ report:
 
 
 metrics:
-
-  organizations-total-line:
-    metric_type: organization
+  doi-monthly-user-type:
+    metric_type: doi
     start_time: 01-01-2015
 #    end_time: 11-01-2022
-    aggregation: 1D
+    aggregation: 1M
     save_data: True
     series:
-      - type: total
-        label: All Organizations
-        color: k
+      - type: publications_by_usr_type
+        label: Published resources per month
         linestyle: '-'
     figure_configuration:
       type: line
-      title: Cumulative Unique Organizations Registered in HydroShare
+      title: Cumulative Resources with DOI's over time, by User Type.
       caption: |
-        Cumulative number of unique, user-specified, organizations represented in HydroShare. Values are plotted by the account creation date of the user account that defined the organization. In the event that an organization has been defined multiple times, it is associated with the first account that referenced it.
+        Digital object identifiers (DOIs) created over time, separated by user type, aggregated monthly, and summed cumulatively.
       rcParams:
         axes.titlesize: 24
         axes.labelsize: 16
         legend.fontsize: 12
         figure.figsize: 12, 7
       axis:
-        xlabel: Account Creation Date
-        ylabel: Number of Organizations
+        xlabel: Publication Date
+        ylabel: Number of Published Resources
         ylim: (0.0, None)
       figure:
         annotate_series: True
         grid: True
         legend: True
+    
+  doi-monthly-org-type:
+    metric_type: doi
+    start_time: 01-01-2015
+#    end_time: 11-01-2022
+    aggregation: 1M
+    save_data: True
+    series:
+      - type: publications_by_org_type
+        label: Published resources per month
+        linestyle: '-'
+    figure_configuration:
+      type: line
+      title: Cumulative Resources with DOI's over time, by Organization Type.
+      caption: |
+        Digital object identifiers (DOIs) created over time, separated by user organization type, aggregated monthly, and summed cumulatively.
+      rcParams:
+        axes.titlesize: 24
+        axes.labelsize: 16
+        legend.fontsize: 12
+        figure.figsize: 12, 7
+      axis:
+        xlabel: Publication Date
+        ylabel: Number of Published Resources
+        ylim: (0.0, None)
+      figure:
+        annotate_series: True
+        grid: True
+        legend: True
+
+  doi-pie-org-type:
+    metric_type: doi
+    start_time: 01-01-2015
+#    end_time: 11-01-2022
+    save_data: True
+    series:
+      - type: orgpie
+        exclude:
+          - None
+        publication_threshold: 1
+    figure_configuration:
+      type: pie
+      title: Distribution of Publications by Specified Org Types
+      caption: |
+        The distribution of HydroShare publications based on how the user defined "org type" type in their profile.
+      rcParams:
+        axes.titlesize: 24
+        axes.labelsize: 16
+        legend.fontsize: 12
+        figure.figsize: 10, 7
+      axis:
+        xlabel: ""
+        ylabel: ""
   
-  organizations-us-int-cuahsi:
-    metric_type: organization
+  doi-organizations-table:
+    metric_type: doi
     start_time: 01-01-2015
 #    end_time: 11-01-2022
-    aggregation: 1D
+    aggregation: M
     save_data: True
+    return_type: html # can be html or img
+    filename: organizations-table.html
     series:
-      - type: us_universities
-        label: US Universities
-        color: b
-        linestyle: '-'
-      - type: international_universities
-        label: International Universities
-        color: r
-        linestyle: '-'
-      - type: cuahsi_members
-        label: CUAHSI Member Institutions
-        color: g
-        linestyle: '-'
+      - type: orgtable
+        label: Test Organizations
+        exclude:
+          - None
+        publication_threshold: 1
     figure_configuration:
-      type: line
-      title: Cumulative Unique Organizations that are Universities and CUAHSI Member Institutions
+      type: table_html
+      title: Publications by Org Type
       caption: |
-        Cumulative total of unique, user-specified, organizations divided into (1) US universities, (2) CUAHSI member institutions, and (3) international universities. Values are plotted by the account creation date of the user account that defined the organization. In the event that an organization has been defined multiple times, it is associated with the first account that referenced it.
+        The distribution of HydroShare publications based on how the user defined "org type" type in their profile.
       rcParams:
-        axes.titlesize: 24
-        axes.labelsize: 16
-        legend.fontsize: 12
-        figure.figsize: 12, 7
-      axis:
-        xlabel: Account Creation Date
-        ylabel: Number of Organizations
-        ylim: (0.0, 450)
-      figure:
-        annotate_series: True
-        grid: True
-        legend: True
+        figure.figsize: 10, 20
 
-  organizations-line:
-    metric_type: organization
-    start_time: 01-01-2015
-#    end_time: 11-01-2022
-    aggregation: 1D
-    save_data: True
-    series:
-      - type: org_type
-        label: Organizations
-        linestyle: '-'
-    figure_configuration:
-      type: line
-      title: Orgs over time
-      caption: Orgs
-      rcParams:
-        axes.titlesize: 24
-        axes.labelsize: 16
-        legend.fontsize: 12
-        figure.figsize: 12, 7
-      axis:
-        xlabel: Account Creation Date
-        ylabel: Number of Organizations
-        ylim: (0.0, None)
-      figure:
-        annotate_series: True
-        grid: True
-        legend: True
+#   organizations-line:
+#     metric_type: organization
+#     start_time: 01-01-2015
+# #    end_time: 11-01-2022
+#     aggregation: 1D
+#     save_data: True
+#     series:
+#       - type: org_type
+#         label: Organizations
+#         linestyle: '-'
+#         users_threshold: 25
+#     figure_configuration:
+#       type: line
+#       title: Orgs over time
+#       caption: Orgs
+#       rcParams:
+#         axes.titlesize: 24
+#         axes.labelsize: 16
+#         legend.fontsize: 12
+#         figure.figsize: 12, 7
+#       axis:
+#         xlabel: Account Creation Date
+#         ylabel: Number of Organizations
+#         ylim: (0.0, None)
+#       figure:
+#         annotate_series: True
+#         grid: True
+#         legend: True
 
 #   organizations-table:
 #     metric_type: organization
@@ -189,7 +225,8 @@ metrics:
 #     filename: organizations-table.html
 #     series:
 #       - type: total_table
-#         label: Organizations
+#         label: Test Organizations
+#         users_threshold: 25
 #     figure_configuration:
 #       type: table_html
 #       title: Organizations
@@ -197,28 +234,3 @@ metrics:
 #         This table is orgs
 #       rcParams:
 #         figure.figsize: 10, 20
-
-  doi-citation-count:
-    metric_type: doi
-    start_time: 01-01-2015
-#    end_time: 11-01-2022
-    aggregation: 1M
-    save_data: True
-    series:
-      - type: citations
-    figure_configuration:
-      type: bar
-      title: Number Citations for Published HydroShare Resources
-      caption: |
-        The total number citations of published HydroShare resources. The accompanying dataset also contains the dois for publications that cites each of these HydroShare resources.
-      rcParams:
-        axes.titlesize: 24
-        axes.labelsize: 16
-        figure.figsize: 12, 7
-      axis:
-        xlabel: Date
-        ylabel: Number of Citations
-        ylim: (0.0, None)
-      figure:
-        annotate_series: False
-        grid: True
