@@ -5,6 +5,15 @@ filebeat.inputs:
     paths:
       - "${METRICS_LOGS_DIR:/var/log}/${METRICS_LOGFILE_MATCH:*log*}"
 
+filebeat.modules:
+  - module: nginx
+    access:
+      enabled: true
+      var.paths: ["${NGINX_LOGS_DIR:/var/log}/nginx/access.log*"]
+    error:
+      enabled: true
+      var.paths: ["${NGINX_LOGS_DIR:/var/log}/nginx/error.log*"]
+
 output.logstash:
   hosts: ["logstash:5044"]
   username: 'elastic'
