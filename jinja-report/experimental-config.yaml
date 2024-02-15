@@ -234,3 +234,22 @@ metrics:
 #         This table is orgs
 #       rcParams:
 #         figure.figsize: 10, 20
+
+  activity-table:
+    metric_type: activity
+    start_time: 01-01-2015
+#    end_time: 11-01-2022
+    aggregation: M
+    save_data: True
+    return_type: html # can be html or img
+    filename: activity-table.html
+    series:
+      - type: quarterly_activity_table
+        label: Quarterly Activity
+    figure_configuration:
+      type: table_html
+      title: Quarterly User Actions Summarized by Type
+      caption: |
+        This table contains a quarterly summary of total user actions. 
+      rcParams:
+        figure.figsize: 10, 20

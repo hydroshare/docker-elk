@@ -86,7 +86,7 @@ class Collect:
 
     @classmethod
     def activity(self, dirname, skip=True, deidentify=True,
-              index='*activity*', apply_spam_filter=True):
+                 index='*activity-test*', apply_spam_filter=True):
         pass
         
         # TODO: implement spam filter
@@ -206,7 +206,7 @@ def get_stats_data(users=True, resources=True,
     rindex = '*resource*latest*'
     rquery = f'rpt_dt_str:"{report_dt_str}"'
 
-    aindex = '*activity*'
+    aindex = '*activity-test*'
     aquery = '-user_id:None AND -action:visit'
 
     # get user data
