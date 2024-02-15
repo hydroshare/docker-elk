@@ -2,3 +2,6 @@
 /jinja-report/creds.py
 .env
 /self-cert/certs
+/filebeat/data
+/log
+.DS_Store

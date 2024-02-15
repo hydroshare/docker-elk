@@ -338,7 +338,7 @@ metrics:
       axis:
         xlabel: Account Creation Date
         ylabel: Number of Organizations
-        ylim: (0.0, 450)
+        ylim: (0.0, 600)
       figure:
         annotate_series: True
         grid: True
