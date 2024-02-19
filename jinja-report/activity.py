@@ -43,10 +43,6 @@ def quarterly_activity_table(input_directory='.',
                              **kwargs):
     print('--> calculating activity table')
 
-    if not start_time:
-        start_time = datetime(2000, 1, 1)
-        start_time = datetime.now() - timedelta(days=356*2)
-
     # load the data based on working directory
     df = load_data(input_directory, 'activity.pkl')
 
@@ -64,16 +60,20 @@ def quarterly_activity_table(input_directory='.',
     df.drop('action', axis=1, inplace=True)
     # df = df.loc[:, df.columns.notnull()]
 
-    df = df.groupby(pandas.Grouper(freq=aggregation)).sum()
-
-    # drop unnecessary columns
-    df = df.filter(['Date', 'begin_session', 'login', 'delete',
-                    'create', 'download', 'app_launch'], axis=1)
+    # remove by date
+    if not start_time:
+        start_time = datetime.now() - timedelta(days=356*2)
 
     df = utilities.subset_by_date(df,
                                   start_time,
                                   end_time,
                                   date_column='Date')
+
+    df = df.groupby(pandas.Grouper(freq=aggregation)).sum()
+
+    # drop unnecessary columns
+    df = df.filter(['Date', 'begin_session', 'login', 'delete',
+                    'create', 'download', 'app_launch'], axis=1)
 
     # rename columns
     df = df.rename(columns={'begin_session': 'Begin\nSession',
