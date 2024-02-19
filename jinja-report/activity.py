@@ -5,7 +5,7 @@ import pandas
 import argparse
 import numpy as np
 from tabulate import tabulate
-from datetime import datetime
+from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
@@ -33,7 +33,7 @@ def load_data(workingdir, pickle_file='activity.pkl'):
 
 
 def quarterly_activity_table(input_directory='.',
-                             start_time=datetime(2000, 1, 1),
+                             start_time=None,
                              end_time=datetime(2030, 1, 1),
                              step=1,
                              label='total users',
@@ -42,6 +42,10 @@ def quarterly_activity_table(input_directory='.',
                              aggregation='Q',
                              **kwargs):
     print('--> calculating activity table')
+
+    if not start_time:
+        start_time = datetime(2000, 1, 1)
+        start_time = datetime.now() - timedelta(days=356*2)
 
     # load the data based on working directory
     df = load_data(input_directory, 'activity.pkl')
@@ -65,6 +69,11 @@ def quarterly_activity_table(input_directory='.',
     # drop unnecessary columns
     df = df.filter(['Date', 'begin_session', 'login', 'delete',
                     'create', 'download', 'app_launch'], axis=1)
+
+    df = utilities.subset_by_date(df,
+                                  start_time,
+                                  end_time,
+                                  date_column='Date')
 
     # rename columns
     df = df.rename(columns={'begin_session': 'Begin\nSession',

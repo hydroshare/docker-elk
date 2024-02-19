@@ -7,7 +7,7 @@ Utility functions
 """
 
 import pandas
-
+from datetime import datetime
 
 def save_data_to_csv(data_dict, index='date'):
     for k, v in data_dict.items():
@@ -36,7 +36,7 @@ def save_data_to_csv(data_dict, index='date'):
             print(f'Attempted to save this dict to csv: {data_dict}')
 
 
-def subset_by_date(dat, st, et, date_column='date'):
+def subset_by_date(dat, st, et=datetime.now(), date_column='date'):
 
     if type(dat) == pandas.DataFrame:
 

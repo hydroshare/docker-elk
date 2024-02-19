@@ -473,8 +473,8 @@ metrics:
 
   activity-table:
     metric_type: activity
-    start_time: 01-01-2015
-#    end_time: 11-01-2022
+    # start_time: 01-01-2015
+    # end_time: 11-01-2022
     aggregation: M
     save_data: True
     return_type: html # can be html or img
