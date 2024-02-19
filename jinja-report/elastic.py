@@ -90,7 +90,7 @@ def get_es_data(host,
         print(f"Total size is: {total_size}")
 
     # calculate the scroll size
-    min_scroll, max_scroll = 1000, 10000
+    min_scroll, max_scroll = 100, 1000
     inc_scroll = int(total_size / 25)
     scroll_size = min(
         inc_scroll, max_scroll) if inc_scroll > min_scroll else min_scroll
