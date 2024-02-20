@@ -201,10 +201,12 @@ def get_stats_data(users=True, resources=True,
     report_dt_str = datetime.today().strftime('%m/%d/%Y')
 
     uindex = '*user*latest*'
-    uquery = 'rpt_dt_str:"*"'
+    # uquery = f'rpt_dt_str:"{report_dt_str}"'
+    uquery = '*'
 
     rindex = '*resource*latest*'
-    rquery = 'rpt_dt_str:"*"'
+    # rquery = f'rpt_dt_str:"{report_dt_str}"'
+    rquery = '*'
 
     aindex = '*activity*'
     aquery = '-user_id:None AND -action:visit'
