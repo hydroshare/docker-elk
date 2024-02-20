@@ -106,7 +106,7 @@ services:
       - bash
       - -c
       - >
-        cp /usr/share/elasticsearch/config/temp_elastic.keystore /usr/share/elasticsearch/config/elasticsearch.keystore;
+        cp -f /usr/share/elasticsearch/config/temp_elastic.keystore /usr/share/elasticsearch/config/elasticsearch.keystore;
         exec /usr/local/bin/docker-entrypoint.sh;
 
   logstash:
