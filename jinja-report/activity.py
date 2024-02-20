@@ -66,6 +66,12 @@ def quarterly_activity_table(input_directory='.',
     df = df.filter(['Date', 'begin_session', 'login', 'delete',
                     'create', 'download', 'app_launch'], axis=1)
 
+    # Remove rows with all zeros
+    df = df.loc[(df != 0).any(axis=1)]
+
+    # drop nan values
+    df = df.dropna()
+
     # rename columns
     df = df.rename(columns={'begin_session': 'Begin\nSession',
                             'login': 'Login',
