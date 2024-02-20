@@ -26,7 +26,7 @@ class Collect:
 
         report_dt_str = datetime.today().strftime('%m/%d/%Y')
 
-        uquery = f'rpt_dt_str:"{report_dt_str}"'
+        uquery = f'rpt_dt_str:"*"'
 
         drop = []
         if deidentify:
@@ -65,7 +65,7 @@ class Collect:
         report_dt_str = datetime.today().strftime('%m/%d/%Y')
 
         rindex = '*resource*latest*'
-        rquery = f'rpt_dt_str:"{report_dt_str}"'
+        rquery = 'rpt_dt_str:"*"'
 
         # get resource data
         if os.path.exists(rfile) and skip:
@@ -201,10 +201,10 @@ def get_stats_data(users=True, resources=True,
     report_dt_str = datetime.today().strftime('%m/%d/%Y')
 
     uindex = '*user*latest*'
-    uquery = f'rpt_dt_str:"{report_dt_str}"'
+    uquery = 'rpt_dt_str:"*"'
 
     rindex = '*resource*latest*'
-    rquery = f'rpt_dt_str:"{report_dt_str}"'
+    rquery = 'rpt_dt_str:"*"'
 
     aindex = '*activity*'
     aquery = '-user_id:None AND -action:visit'
