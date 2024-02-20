@@ -73,6 +73,7 @@ services:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
+      - ./elasticsearch/config/elasticsearch.keystore:/usr/share/elasticsearch/config/temp_elastic.keystore:Z
       - elasticsearch:/usr/share/elasticsearch/data:Z
       # (!) TLS certificates. Generate using the 'tls' service.
       - ${METRICS_CRTS_DIR}/ca/ca.crt:/usr/share/elasticsearch/config/ca.crt:ro,z
@@ -99,6 +100,14 @@ services:
       timeout: 5s
       retries: 1000
     restart: unless-stopped
+    entrypoint:
+      - /bin/tini
+      - --
+      - bash
+      - -c
+      - >
+        cp /usr/share/elasticsearch/config/temp_elastic.keystore /usr/share/elasticsearch/config/elasticsearch.keystore;
+        exec /usr/local/bin/docker-entrypoint.sh;
 
   logstash:
     user: root
