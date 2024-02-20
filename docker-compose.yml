@@ -74,7 +74,6 @@ services:
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
       - elasticsearch:/usr/share/elasticsearch/data:Z
-      - keystore:/usr/share/elasticsearch/config/elasticsearch.keystore:Z
       # (!) TLS certificates. Generate using the 'tls' service.
       - ${METRICS_CRTS_DIR}/ca/ca.crt:/usr/share/elasticsearch/config/ca.crt:ro,z
       - ${METRICS_CRTS_DIR}/elasticsearch/elasticsearch.crt:/usr/share/elasticsearch/config/elasticsearch.crt:ro,z
@@ -245,4 +244,3 @@ networks:
 
 volumes:
   elasticsearch:
-  keystore:
